@@ -75,30 +75,34 @@ const reportLinks = (mdFiles: IMDFile[], directory: string): void => {
             success: 0
         };
 
-        console.log('');
-        console.log(chalk.cyan(mdFile.path));
+        // console.log('');
+        // console.log(chalk.cyan(mdFile.path));
 
         mdFile.links.forEach((link) => {
             if (link.isValid) {
                 totalLinksInFile.success++;
-                console.log(chalk.green(`✔ ${link.link}`));
+                // console.log(chalk.green(`✔ ${link.link}`));
 
                 return;
             }
             totalLinksInFile.error++;
 
+            console.log(chalk.cyan(mdFile.path));
             console.log(chalk.red(`✖ ${link.link}:${link.position.line}:${link.position.column}`));
         });
 
         totalLinks.success += totalLinksInFile.success;
         totalLinks.error += totalLinksInFile.error;
 
-        console.log('');
+        // console.log('');
 
         let chalkColor = chalk.green;
 
         if (totalLinksInFile.error > 0) {
             chalkColor = chalk.red;
+        } else {
+            // Do nothing more if there's no errors in this file
+            return;
         }
 
         console.log(chalkColor(`Found ${totalLinksInFile.error + totalLinksInFile.success} links:
